@@ -15,19 +15,21 @@ export class AppComponent implements OnInit{
   constructor(private ns: NoteService) {}
 
   ngOnInit() {
-   
+    this.onGetNotes();
+  }
+
+  postRandom(){
+      this.ns.postNote({title: "test", description: "test test", favorite: true}).subscribe(res => {
+      console.log(res);
+      //this.notes = [res];
+    });
+  }
+
+  onGetNotes() {
     this.ns.getNotes().subscribe( res => {
       console.log(res);
       this.notes = res;
     } );
-  }
-
-  postRandom(){
-    
-    this.ns.postNote({title: "test", description: "test test", favorite: true}).subscribe(res => {
-      console.log(res);
-      //this.notes = [res];
-    });
   }
   
 }
