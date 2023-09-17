@@ -1,35 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { NoteService } from './note-service/note.service';
 import { Note } from './note.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   title = 'note-manager-app';
 
-  notes: Note[] = [];
+  noteList$: Observable<Note[]> = this.ns.getNotes();
 
   constructor(private ns: NoteService) {}
 
-  ngOnInit() {
-    this.onGetNotes();
-  }
-
   postRandom(){
-      this.ns.postNote({title: "test", description: "test test", favorite: true}).subscribe(res => {
-      console.log(res);
-      this.onGetNotes();
-    });
+      this.ns.postNote({title: "test", description: "test test", favorite: true}).subscribe(_ =>
+      this.noteList$ = this.ns.getNotes()
+    );
   }
-
-  onGetNotes() {
-    this.ns.getNotes().subscribe( res => {
-      console.log(res);
-      this.notes = res;
-    } );
-  }
-  
 }
