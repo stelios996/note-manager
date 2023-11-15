@@ -1,16 +1,11 @@
-<h2>{{title}}</h2>
-<button (click)="postRandom()">Post random</button>
+<div class = "app-container">
 
-<ng-container *ngIf="notes$ | async as notes">
-  <ng-container *ngIf="notes.length>0; else noNotes">
-    <div *ngFor="let note of notes">
-      <h4> {{note.id}} : {{note.title}}</h4>
-      <p> {{note.description}}</p>
-      <p *ngIf="note.favorite">TOP PRIORITY</p>
-    </div>
-  </ng-container>
-</ng-container>
+  <div class="app-title">
+    <mat-icon> notes</mat-icon>
+    <h1>{{title}}</h1>
+  </div>
 
-<ng-template #noNotes>
-  <p>Add notes to view</p>
-</ng-template>
+  <button mat-raised-button>Add Note</button>
+
+  <app-note-list></app-note-list>
+</div>

@@ -1,0 +1,5 @@
+.app-container{display:flex; flex-flow: column nowrap; justify-content: center; align-items: center;gap: 1.25rem;}
+.app-title{margin:1.25rem 0rem 0rem 0rem; display:flex; flex-flow: row nowrap; justify-content: center; align-items: baseline;color:#43403f;}
+.app-title h1{font-size: 2.5rem;font-weight:bold;padding: 0.625rem;}
+.app-title mat-icon{font-size: 2rem;padding:0.313rem;font-weight:bold;}
+.app-container button{color:#8e8987;}
