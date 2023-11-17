@@ -1,18 +1,24 @@
-<ng-container *ngIf="notes$ | async as notes">
-  <ng-container *ngIf="notes.length>0; else noNotes">
-    <mat-card *ngFor="let note of notes; let i=index;">
-      <mat-card-content> 
-        <p>{{note.description}}</p>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button mat-mini-fab (click)="onEdit(i)"><mat-icon>edit</mat-icon></button>
-        <button mat-mini-fab (click)="onDelete(note)"><mat-icon>delete</mat-icon></button>
-        <button mat-mini-fab [ngClass]="{'highlight': note.favorite, 'plain':!note.favorite}" (click)="onFavor(note)"><mat-icon>star</mat-icon></button>
-      </mat-card-actions>
-    </mat-card>
+<div class="list-container">
+
+  <button mat-raised-button (click)="onEdit()">Add Note</button>
+
+  <ng-container *ngIf="notes$ | async as notes">
+    <ng-container *ngIf="notes.length>0; else noNotes">
+      <mat-card *ngFor="let note of notes; let i=index;">
+        <mat-card-content> 
+          <p>{{note.description}}</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-mini-fab (click)="onEdit(note)"><mat-icon>edit</mat-icon></button>
+          <button mat-mini-fab (click)="onDelete(note)"><mat-icon>delete</mat-icon></button>
+          <button mat-mini-fab [ngClass]="{'highlight': note.favorite, 'plain':!note.favorite}" (click)="onFavor(note)"><mat-icon>star</mat-icon></button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
   </ng-container>
-</ng-container>
-  
-<ng-template #noNotes>
-  <p>Add notes to view</p>
-</ng-template>
+      
+  <ng-template #noNotes>
+    <p>Add notes to view</p>
+  </ng-template>
+
+</div>

@@ -10,7 +10,7 @@ import { environment } from '../environments/environment.development';
 export class NoteService {
 
   url: string = environment.firebaseUrl;
-  delUrl: string = environment.firebaseUrlDel;
+  modUrl: string = environment.firebaseUrlMod;
   
   constructor(private http: HttpClient) { }
 
@@ -28,15 +28,19 @@ export class NoteService {
   }
 
   addNote(note: Note) {
-    return this.http.post<{name:string}>(this.url, note);
+    return this.http.post<Note>(this.url, note);
+  }
+
+  updateNote(id: string, note: Note){
+    return this.http.patch<Note>(this.modUrl+id+".json", note);
   }
 
   deleteNote(id: string){
-    return this.http.delete<Note>(this.delUrl+id+".json");
+    return this.http.delete<Note>(this.modUrl+id+".json");
   }
 
   toggleFavor(id:string, fav: boolean){
-    return this.http.patch<Note>(this.delUrl+id+".json", {favorite: !fav});
+    return this.http.patch<Note>(this.modUrl+id+".json", {favorite: !fav});
   }
 
 }

@@ -1,0 +1,25 @@
+<div class="edit-container">
+  
+  <h1 mat-dialog-title *ngIf="data; else newNote">Editing note</h1>
+  <ng-template #newNote>
+    <h1 mat-dialog-title>Adding new note</h1>
+  </ng-template>
+
+  <form [formGroup]="dialogForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content>
+      <mat-form-field floatLabel=always>
+        <mat-label for="description">Description</mat-label>
+        <input matInput required [placeholder]="data? data.description : ''" formControlName="description">
+      </mat-form-field>
+      <section>
+        <mat-label for="favorite">Add to Favorites</mat-label>
+        <mat-checkbox required formControlName="favorite">Yes</mat-checkbox>
+      </section>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button type="reset" mat-button (click)="onCancel()">Cancel</button>
+      <!--<button type="submit" mat-button [mat-dialog-close]="dialogData" cdkFocusInitial>Save</button>-->
+      <button type="submit" mat-button>Save</button>
+    </div>
+  </form>
+</div>
