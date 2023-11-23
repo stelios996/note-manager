@@ -1,4 +1,4 @@
-<div class="list-container">
+<div class="list-container" *ngIf="auth">
 
   <button mat-raised-button (click)="onEdit()">Add Note</button>
 
@@ -17,6 +17,8 @@
     </ng-container>
   </ng-container>
       
+  <button mat-raised-button (click)="onLogout()">Sign Out</button>
+
   <ng-template #noNotes>
     <p>Add notes to view</p>
   </ng-template>

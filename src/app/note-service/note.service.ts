@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Note } from '../note.model';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment.development';
+import { AuthService } from '../auth-service/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,9 @@ import { environment } from '../environments/environment.development';
 export class NoteService {
 
   url: string = environment.firebaseUrl;
-  modUrl: string = environment.firebaseUrlMod;
+  modUrl: string = environment.firebaseModUrl;
   
+
   constructor(private http: HttpClient) { }
 
   getNotes() {
@@ -20,8 +22,7 @@ export class NoteService {
       map( res => {
         let notes = [];
         for(const key in res)
-            notes.push({...res[key], id: key});
-        //console.log(notes);
+          notes.push({...res[key], id: key});
         return notes;
       })
     );

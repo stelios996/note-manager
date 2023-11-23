@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthResponseData, AuthService } from 'src/app/auth-service/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -11,8 +13,9 @@ export class AuthComponent implements OnInit{
 
   authForm: FormGroup;
   isLogin: boolean = true;
+  auth$: Observable<AuthResponseData>;
 
-  constructor( private router: Router ){}
+  constructor( private router: Router, private authService: AuthService ){}
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
@@ -22,11 +25,26 @@ export class AuthComponent implements OnInit{
   }
 
   onLogin(){
-    if(this.authForm.valid)
-      this.router.navigate(['/notes']);
+    if(this.authForm.valid){
+      if(this.isLogin){
+        this.auth$ = this.authService.login(this.authForm.get('email').value, this.authForm.get('password').value);
+      }else{
+        this.auth$ = this.authService.signup(this.authForm.get('email').value, this.authForm.get('password').value);
+      }
+      this.auth$.subscribe({
+        next: res => {
+              //console.log(res);
+              this.router.navigate(['/notes']);
+            },
+        error: errorRes => {
+              alert(errorRes);
+              this.authForm.reset();
+            }
+      });
+    }
   }
 
-  onSignUp(){
+  onSwitchMode(){
     this.authForm.reset();
     this.isLogin = !this.isLogin;
   }

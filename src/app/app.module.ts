@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { NoteListComponent } from './components/note-list/note-list.component';
 import { EditNoteComponent } from './components/edit-note/edit-note.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { AuthInterceptorService } from './auth-service/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { AuthComponent } from './components/auth/auth.component';
     MatCheckboxModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
