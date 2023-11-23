@@ -12,10 +12,10 @@ import { EditNoteComponent } from '../edit-note/edit-note.component';
 })
 export class NoteListComponent {
 
-  //notes$: Observable<Note[]> = this.ns.getNotes();
-  notes$: Observable<Note[]>;
+  notes$: Observable<Note[]> = this.ns.getNotes();
+  //notes$: Observable<Note[]>;
 
-  constructor(private ns: NoteService, public dialog: MatDialog) { this.getNotes() }
+  constructor(private ns: NoteService, public dialog: MatDialog) {}
 
   onEdit(note?: Note){
     const dialogRef = this.dialog.open( EditNoteComponent, { data: note, width:'40rem'});

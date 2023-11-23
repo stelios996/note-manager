@@ -1,0 +1,24 @@
+<div class="auth-container">
+
+    <form [formGroup]="authForm" (ngSubmit)="onLogin()">
+      <div class="form-fields">
+        <mat-form-field>
+            <mat-label for="email">Email</mat-label>
+            <input matInput required type='email' formControlName="email">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label for="password">Password</mat-label>
+            <input matInput required type='password' formControlName="password">
+        </mat-form-field>
+      </div>
+      <div class="buttons">
+        <button mat-raised-button type="submit">{{ isLogin? 'Login': 'Sign Up' }}</button>
+        <p *ngIf="isLogin; else login">Don't have an account? Click <a (click)="onSignUp()"><i><u>here</u></i></a> to sign up</p>
+        
+        <ng-template #login>
+            <p>Back to <a (click)="onSignUp()"><i><u>login</u></i></a></p>
+        </ng-template>
+      </div>
+    </form>
+
+</div>

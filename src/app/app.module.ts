@@ -10,16 +10,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { NoteListComponent } from './components/note-list/note-list.component';
 import { EditNoteComponent } from './components/edit-note/edit-note.component';
+import { AuthComponent } from './components/auth/auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NoteListComponent,
-    EditNoteComponent
+    EditNoteComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,8 @@ import { EditNoteComponent } from './components/edit-note/edit-note.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

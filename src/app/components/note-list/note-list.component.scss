@@ -1,5 +1,5 @@
-.list-container{display:flex; flex-flow: column nowrap; justify-content: center; align-items: center;gap: 1.25rem;margin-bottom: 2rem;}
-.list-container button{color:#8e8987;}
+.list-container{display:flex; flex-flow: column nowrap; justify-content: center; align-items: center;gap: 1.25rem;margin-bottom: 2rem;button{color:#8e8987;}}
+//.list-container button{color:#8e8987;}
 
 mat-card{width: 100%;background-color: #edecec;box-shadow: 0.313rem 0.313rem 0.5rem #bdbbb9;color:#8e8987;font-size:1rem}
 mat-card:hover{background-color: #bdbbb9;box-shadow: 0.313rem 0.313rem 0.5rem #8e8987;color:#43403f;}
