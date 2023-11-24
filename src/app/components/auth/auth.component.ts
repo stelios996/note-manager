@@ -32,8 +32,7 @@ export class AuthComponent implements OnInit{
         this.auth$ = this.authService.signup(this.authForm.get('email').value, this.authForm.get('password').value);
       }
       this.auth$.subscribe({
-        next: res => {
-              //console.log(res);
+        next: () => {
               this.router.navigate(['/notes']);
             },
         error: errorRes => {
