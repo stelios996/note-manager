@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NoteService } from '../../note-service/note.service';
 import { Note } from '../../note.model';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, switchMap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EditNoteComponent } from '../edit-note/edit-note.component';
 import { AuthService } from 'src/app/auth-service/auth.service';
@@ -13,15 +13,14 @@ import { AuthService } from 'src/app/auth-service/auth.service';
 })
 export class NoteListComponent implements OnInit, OnDestroy{
 
-  notes$: Observable<Note[]>;
-  //notes$: Observable<Note[]>;
+  reloadNotes$ = new BehaviorSubject<boolean>(false);
+  notes$: Observable<Note[]> = this.reloadNotes$.pipe(switchMap(() => this.ns.getNotes()));
   private userSub: Subscription;
   auth: boolean = false;
 
   constructor(private ns: NoteService, public dialog: MatDialog, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.notes$ = this.ns.getNotes();
     this.userSub = this.authService.user.subscribe( user => this.auth = user? true : false );
   }
 
@@ -38,21 +37,18 @@ export class NoteListComponent implements OnInit, OnDestroy{
 
     dialogRef.afterClosed().subscribe( result => {
       if(!note && result)
-        this.ns.addNote(result).subscribe( () => this.getNotes() );
+        this.ns.addNote(result).subscribe( () => this.reloadNotes$.next(true) );
       else if(note && result)
-        this.ns.updateNote(note.id, result).subscribe( () => this.getNotes() );
+        this.ns.updateNote(note.id, result).subscribe( () => this.reloadNotes$.next(true) );
     });
   }
 
   onDelete(note: Note){
-    this.ns.deleteNote(note.id).subscribe( () => this.getNotes() );
+    this.ns.deleteNote(note.id).subscribe( () => this.reloadNotes$.next(true) );
   }
 
   onFavor(note: Note){
-    this.ns.toggleFavor(note.id, note.favorite).subscribe( () => this.getNotes() );
+    this.ns.toggleFavor(note.id, note.favorite).subscribe( () => this.reloadNotes$.next(true) );
   }
 
-  getNotes(){
-    this.notes$ = this.ns.getNotes();
-  }
 }
