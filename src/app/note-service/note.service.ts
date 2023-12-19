@@ -17,8 +17,13 @@ export class NoteService {
   constructor(private http: HttpClient) { }
 
   getNotes() {
-    //return this.http.get<{[key:string]: Note}>(this.url).pipe(
-    return this.http.get<Note[]>(this.url).pipe(
+    //return this.http.get<Note[]>(this.url).pipe(
+
+    const uID = this.getCurrentUserId();
+    if (!uID)
+      return null;
+    
+    return this.http.get<Note[]>(this.url+"?orderBy=\"userId\"&equalTo=\""+uID+"\"").pipe(
       map( res => {
         let notes = [];
         for(const key in res)
@@ -29,7 +34,8 @@ export class NoteService {
   }
 
   addNote(note: Note) {
-    return this.http.post<Note>(this.url, note);
+    let completeNote = this.setNoteUserId(note);
+    return this.http.post<Note>(this.url, completeNote);
   }
 
   updateNote(id: string, note: Note){
@@ -42,6 +48,19 @@ export class NoteService {
 
   toggleFavor(id:string, fav: boolean){
     return this.http.patch<Note>(this.modUrl+id+".json", {favorite: !fav});
+  }
+
+  getCurrentUserId(){
+    const userData: { email:string; id: string; _token: string; _tokenExpirationDate: string; } = JSON.parse(localStorage.getItem('user')); 
+    if(!userData)
+      return null;
+
+    return userData.id;
+  }
+
+  setNoteUserId(note: Note){
+    note.userId = this.getCurrentUserId();
+    return note;
   }
 
 }
