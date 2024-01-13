@@ -12,11 +12,11 @@ export class NoteService {
 
   url: string = environment.firebaseUrl;
   modUrl: string = environment.firebaseModUrl;
-  
+  notesLength: number;
 
   constructor(private http: HttpClient) { }
 
-  getNotes() {
+  getNotes(pageIndex: number, pageSize: number) {
     //return this.http.get<Note[]>(this.url).pipe(
 
     const uID = this.getCurrentUserId();
@@ -28,7 +28,8 @@ export class NoteService {
         let notes = [];
         for(const key in res)
           notes.push({...res[key], id: key});
-        return notes;
+        this.notesLength = notes.length;
+        return notes.splice(pageIndex*pageSize, pageSize);
       })
     );
   }
@@ -61,6 +62,10 @@ export class NoteService {
   setNoteUserId(note: Note){
     note.userId = this.getCurrentUserId();
     return note;
+  }
+
+  getNotesLength(){
+    return this.notesLength;
   }
 
 }

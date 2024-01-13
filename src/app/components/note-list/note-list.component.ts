@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subscription, switchMap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EditNoteComponent } from '../edit-note/edit-note.component';
 import { AuthService } from 'src/app/auth-service/auth.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-note-list',
@@ -13,8 +14,10 @@ import { AuthService } from 'src/app/auth-service/auth.service';
 })
 export class NoteListComponent implements OnInit, OnDestroy{
 
+  currentPage = 0;
+  pageSize = 5;
   reloadNotes$ = new BehaviorSubject<boolean>(false);
-  notes$: Observable<Note[]> = this.reloadNotes$.pipe(switchMap(() => this.ns.getNotes()));
+  notes$: Observable<Note[]> = this.reloadNotes$.pipe(switchMap(() => this.ns.getNotes(this.currentPage, this.pageSize)));
   private userSub: Subscription;
   auth: boolean = false;
 
@@ -51,4 +54,13 @@ export class NoteListComponent implements OnInit, OnDestroy{
     this.ns.toggleFavor(note.id, note.favorite).subscribe( () => this.reloadNotes$.next(true) );
   }
 
+  changePage(pageEvent: PageEvent){
+    this.currentPage = pageEvent.pageIndex;
+    this.pageSize = pageEvent.pageSize;
+    this.reloadNotes$.next(true);
+  }
+
+  getNotesLength(){
+    return this.ns.getNotesLength();
+  }
 }

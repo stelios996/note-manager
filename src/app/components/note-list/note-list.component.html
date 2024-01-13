@@ -14,6 +14,16 @@
           <button mat-mini-fab [ngClass]="{'highlight': note.favorite, 'plain':!note.favorite}" (click)="onFavor(note)"><mat-icon>star</mat-icon></button>
         </mat-card-actions>
       </mat-card>
+
+      <mat-paginator 
+        [length]="this.getNotesLength()"
+        [pageSize]="5"
+        [showFirstLastButtons]="true"
+        [pageIndex]="currentPage"
+        (page)="changePage($event)"
+      >
+      </mat-paginator>
+
     </ng-container>
   </ng-container>
       
